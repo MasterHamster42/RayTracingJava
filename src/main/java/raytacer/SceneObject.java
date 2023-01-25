@@ -2,6 +2,7 @@ package raytacer;
 
 public abstract class SceneObject {
 
+    protected static double Epsilon = Math.pow(10, -10);
     protected Material material;
     protected Texture texture;
 

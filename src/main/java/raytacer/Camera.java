@@ -1,4 +1,7 @@
 package raytacer;
+
+import gui.RenderingController;
+
 import java.awt.image.BufferedImage;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
@@ -10,14 +13,41 @@ public class Camera {
     private final int depth;
     private int fov = 60;
     private final BufferedImage bufferedImage;
-    private Scene scene;
+    private final Scene scene;
 //    private final RenderingController window;
     private Vector3 origin;
     private Vector3 leftLowerCorner;
     private final Vector3 horizontal;
     private final Vector3 vertical;
 
+
+    public BufferedImage renderFrame(){
+        for (int i = height-1; i > -1; i--) {
+//            p("Rows left to render: %s \n", i+1);
+            for (int j = 0; j < width; j++) {
+                RayGeneration rayGeneration = new RayGeneration(depth, scene);
+                ColorRGB pixelColor = new ColorRGB(0,0,0);
+                //Sending rays with small random offset
+                double v = (i + Math.random()) / (height-1.0);
+                double u = (j + Math.random()) / (width-1.0);
+                Ray ray = new Ray(origin, Vector3.vectorFromTo(origin, leftLowerCorner.add(horizontal.multiply(u)).add(vertical.multiply(v)).subtractThis(origin)));
+                pixelColor.addThis(rayGeneration.shootRayAt(ray));
+
+                //Square root is gamma correction for gamma=2
+                pixelColor.sqrtThis();
+                int ir = (int) Math.floor(pixelColor.R *255);
+                int ig = (int) Math.floor(pixelColor.G *255);
+                int ib = (int) Math.floor(pixelColor.B *255);
+
+                int p = (1<<24) | (ir<<16) | (ig<<8) | ib;
+                bufferedImage.setRGB(j,height-i-1,p);
+            }
+        }
+        return bufferedImage;
+    }
+
     public void renderFrameParallel(double[][] imageAccumulated, int[] img, int framesAccumulated){
+        final int[] max = {0};
         IntStream.range(0,width*height).parallel().forEach(global_id -> {
 
             ThreadLocalRandom rd = ThreadLocalRandom.current();
@@ -79,10 +109,6 @@ public class Camera {
         Vector3 horizontal = new Vector3(width, 0, 0);
         Vector3 vertical = new Vector3(0, height, 0);
         leftLowerCorner = origin.subtract(horizontal.multiplyThis(0.5)).subtractThis(vertical.multiplyThis(0.5)).subtractThis(new Vector3(0,0,1));
-    }
-
-    public void setScene(Scene scene){
-        this.scene = scene;
     }
 
     // Constructor

@@ -8,9 +8,9 @@ public class RayGeneration {
 
     public ColorRGB shootRayAt(Ray ray){
         Vector3 reflectedRayDirection;
+        double colourMultiplier = 1;
         ColorRGB DiffuseColors = new ColorRGB(1,1,1);
         ColorRGB emissiveColorAccumulation = new ColorRGB();
-
         for (int i = 0; i < depth; i++) {
             // detecting collision
             CollisionInformation collisionInformation = traceRay(ray);
@@ -46,7 +46,7 @@ public class RayGeneration {
 
                 // new ray
                 ray.direction = reflectedRayDirection;
-                ray.origin = collisionInformation.point.addThis(ray.direction.multiply(0.00001));
+                ray.origin = collisionInformation.point.addThis(ray.direction.multiply(0.0001));
             }
         }
         return DiffuseColors;
@@ -79,6 +79,11 @@ public class RayGeneration {
         }
     }
 
+//    private boolean anyHit(Material material){
+//        double rd = Math.random();
+//        if (rd > material.opaqueness){return false;}
+//        return true;
+//    }
 
     private CollisionInformation closestHit(Ray ray, SceneObject objectHit, double hitDistance){
         Vector3 hitPosition = ray.origin.add(ray.direction.multiply(hitDistance));
@@ -96,6 +101,24 @@ public class RayGeneration {
         return collisionInformation.sceneObject.material.reflect(ray.direction, collisionInformation);
     }
 
+    /**
+     * Calculates color of position impacted by ray, should be called only in shootRayAt
+//     * @param collisionInformation collision of ray, with raytacer.SceneObject
+     * @return color of raytacer.SceneObject at point of collision
+     */
+//    private raytacer.ColorRGB calculateColor(raytacer.CollisionInformation collisionInformation){
+//        //no hit registered
+//        if (collisionInformation.t == Integer.MAX_VALUE){
+//            // returning background color
+//            //TODO should be returning color from skybox
+//            double t = 0.5*(direction.normalizeThis().y + 1.0);
+//            return (new raytacer.ColorRGB(1.0, 1.0, 1.0)).multiplyThis((1.0-t)).addThis((new raytacer.ColorRGB(0.5, 0.7, 1.0)).multiplyThis(t));
+//        }
+//        //something was hit
+//        else {
+//            return collisionInformation.returnColor();
+//        }
+//    }
 
     // Constructors
     public RayGeneration(int depth, Scene scene){

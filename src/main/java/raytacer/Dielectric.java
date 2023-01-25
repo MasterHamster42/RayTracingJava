@@ -20,13 +20,13 @@ public class Dielectric extends Material{
         Vector3 newDirection;
         ThreadLocalRandom rd = ThreadLocalRandom.current();
 
-        if (cannot_refract || reflectance(cos_theta, refraction_ratio) > rd.nextDouble()){
+        if (cannot_refract || reflectance(cos_theta, refraction_ratio) > rd.nextDouble())
             newDirection = reflectIdeal(direction, normal);
-        }
-        else {
+        else
             newDirection = refract(direction, normal, refraction_ratio, cos_theta);
-        }
-
+//        System.out.println(direction);
+//        System.out.println(newDirection);
+//        System.out.println("------");
         return newDirection.normalizeThis();
     }
 
