@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.image.ImageView?>
+<GridPane fx:id="grid" alignment="center" hgap="10" prefHeight="273.0" prefWidth="716.0" vgap="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppController">
+    <padding><Insets bottom="25" left="25" right="25" top="25" /></padding>
+
+    <Text text="raytacer.Ray tracing menu" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
+        <font>
+            <Font name="sans-serif" size="20.0" />
+        </font>
+    </Text>
+
+    <Button fx:id="LoadSceneButton" onAction="#runFileChooser" text="Load scene" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+    <Text text="Provide desired size of the render in pixels" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="1">
+        <font>
+            <Font name="sans-serif" size="15.0" />
+        </font>
+    </Text>
+
+    <TextField fx:id="WidthField" promptText="Width" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+    <TextField fx:id="HeightField" promptText="Height" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <Text text="Maximal amount of bounces per ray" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <font>
+            <Font name="sans-sherif" size="15.0" />
+        </font>
+    </Text>
+
+    <TextField fx:id="Depth" promptText="Depth" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+
+    <Text text="Samples per pixel(only in static render)" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+        <font>
+            <Font name="sans-sherif" size="15.0" />
+        </font>
+    </Text>
+
+    <TextField fx:id="Samples" promptText="Samples" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+    <TextField fx:id="Fov" promptText="Fov" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+<!--    <CheckBox fx:id="dumpData"-->
+<!--              GridPane.columnIndex="0" GridPane.rowIndex="3"-->
+<!--              text="Save data"/>-->
+    <Button fx:id="startButton" onAction="#runRaytracing" prefWidth="100.0" text="Start simulation" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+<!--    <Button fx:id="clearButton"-->
+<!--            text="Clear settings"-->
+<!--            onAction="#clearAllSettings"-->
+<!--            GridPane.columnIndex="2"-->
+<!--            GridPane.rowIndex="4"-->
+<!--    />-->
+
+
+</GridPane>

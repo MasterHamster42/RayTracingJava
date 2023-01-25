@@ -1,5 +1,12 @@
+package raytacer;
+
+import org.json.JSONArray;
+
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Vector3{
     double x, y, z;
+
 
     /**
      * Calculates dot product between itself and vector a
@@ -89,8 +96,11 @@ public class Vector3{
     }
 
     public static Vector3 randomPointInUnitSphere() {
+        ThreadLocalRandom rd = ThreadLocalRandom.current();
+//        UniformRandomProvider rd2 = ThreadLocalRandomSource.current();
+
         while (true) {
-            Vector3 p = new Vector3(Math.random()*2-1, Math.random()*2-1, Math.random()*2-1);
+            Vector3 p = new Vector3(rd.nextDouble(-1,1), rd.nextDouble(-1,1), rd.nextDouble(-1,1));
             if (p.normSquared() >= 1) continue;
             return p;
         }
@@ -100,6 +110,12 @@ public class Vector3{
         return randomPointInUnitSphere().normalizeThis();
     }
 
+    public Vector3 crossProduct(Vector3 a){
+        double newX = y*a.z - z*a.y;
+        double newY = z*a.x - x*a.z;
+        double newZ = x*a.y - y*a.x;
+        return new Vector3(newX, newY, newZ);
+    }
     public Vector3 sqrtThis(){
         x = Math.sqrt(x);
         y = Math.sqrt(y);
@@ -116,7 +132,7 @@ public class Vector3{
 
     @Override
     public String toString() {
-        return "Vector3{" + x +
+        return "raytacer.Vector3{" + x +
                 "," + y +
                 "," + z +
                 '}';
@@ -127,6 +143,16 @@ public class Vector3{
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Vector3() {
+        this(0,0,0);
+    }
+
+    public Vector3(JSONArray jsonArray){
+        this.x = jsonArray.getDouble(0);
+        this.y = jsonArray.getDouble(1);
+        this.z = jsonArray.getDouble(2);
     }
 
 }

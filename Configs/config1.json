@@ -1,0 +1,42 @@
+{
+  "SceneObjects" : [{
+    "type":"Sphere",
+    "radius": 0.5,
+    "center": [0.5,0,-2],
+    "materialID": 0,
+    "textureID": 0
+  }, {
+    "type":"Plane",
+    "normal":[1, 0, 0],
+    "center": [-2, 0, -10],
+    "materialID": 0,
+    "textureID": 0
+  },
+    {
+      "type": "Triangle",
+      "vertex1": [0,0.8,-2],
+      "vertex2": [-1,0,-2],
+      "vertex3": [-2,2,-2],
+      "materialID": 0,
+      "textureID": 0
+    }],
+
+  "Materials": [{
+    "type": "RoughMaterial",
+    "roughness": 1,
+    "emissive": [0,0,0]
+  },{
+    "type": "Dielectric",
+    "refraction": 1.5,
+    "emissive": [0,0,0]
+  }],
+
+  "Textures": [{
+    "type": "SolidColorTexture",
+    "colorRGB": [0.5,0.5,0.5]
+  },{
+    "type": "ImageTexture",
+    "scale": 1,
+    "path": "src/main/resources/texture-background.jpg"
+  }]
+}
