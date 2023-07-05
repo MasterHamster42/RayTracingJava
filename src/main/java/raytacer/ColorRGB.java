@@ -1,4 +1,5 @@
 package raytacer;
+import org.json.JSONArray;
 
 public class ColorRGB{
     double R, G, B;
@@ -94,5 +95,11 @@ public class ColorRGB{
         R = 0;
         G = 0;
         B = 0;
+    }
+
+    public ColorRGB(JSONArray jsonArray){
+        R = jsonArray.getDouble(0);
+        G = jsonArray.getDouble(1);
+        B = jsonArray.getDouble(2);
     }
 }

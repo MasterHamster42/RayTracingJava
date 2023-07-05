@@ -1,5 +1,7 @@
 package raytacer;
 
+import org.json.JSONArray;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Vector3{
@@ -8,7 +10,7 @@ public class Vector3{
 
     /**
      * Calculates dot product between itself and vector a
-     * @param a
+     * @param a vector
      * @return dot product of itself and a
      */
     public double dot(Vector3 a){
@@ -145,6 +147,12 @@ public class Vector3{
 
     public Vector3() {
         this(0,0,0);
+    }
+
+    public Vector3(JSONArray jsonArray){
+        this.x = jsonArray.getDouble(0);
+        this.y = jsonArray.getDouble(1);
+        this.z = jsonArray.getDouble(2);
     }
 
 }

@@ -1,37 +1,23 @@
 package gui;
 
-import javafx.application.Application;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import raytacer.Engine;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -51,6 +37,7 @@ public class AppController implements Initializable {
     private GridPane grid;
     private final Stage stage = App.getPrimaryStage();
     private Scene scene;
+    private raytacer.Scene rayTracingScene;
 
     /**
      * This method is required to be called once before using the controller.
@@ -67,8 +54,7 @@ public class AppController implements Initializable {
         // load default config settings
         Path resourceDirectory = Paths.get("src","main","resources","default");
         String absolutePath = resourceDirectory.toFile().getAbsolutePath();
-//        Engine engine = new Engine(800, 800);
-//        engine.renderAndSaveScene();
+
     }
 
 
@@ -80,20 +66,26 @@ public class AppController implements Initializable {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             String path = file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf('.'));
-//            this.loadConfig(path);
+            raytacer.Scene scene = new raytacer.Scene();
+            scene.loadConfig(path);
+            scene.getSkyBox().loadSkyBox("src/main/resources/skybox_desert.png");
+            rayTracingScene = scene;
         }
     }
     @FXML
-    private void runRaytracing(ActionEvent event) throws IOException {
+    private void runRaytracing(ActionEvent event) {
         if (!checkSettings()) return;
+//        if(scene == null) return;
         RenderingController renderingController = App.getRenderingController();
         int width = Integer.parseInt(WidthField.getText());
         int height = Integer.parseInt(HeightField.getText());
         int depth = Integer.parseInt(Depth.getText());
         int samples = Samples.getCharacters().isEmpty() ? 2 : Integer.parseInt(Samples.getText());
         int fov = Integer.parseInt(Fov.getText());
-
-        renderingController.setEngine(new Engine(width, height, depth, samples, fov));
+        Engine engine = new Engine(width, height, samples, depth, fov);
+//        Engine engine = new Engine(width, height, 10, depth, 90);
+        if(rayTracingScene != null) engine.setScene(rayTracingScene);
+        renderingController.setEngine(engine);
 
         //creating window
         Stage renderingStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

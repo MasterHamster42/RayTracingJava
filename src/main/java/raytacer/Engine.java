@@ -23,25 +23,25 @@ public class Engine {
         this.camera = new Camera(width, height, new Vector3(0,0,0), new Vector3(0,0,-1), samples, depth, fov, scene);
         imgAccumulated = new double[width*height][3];
 
-        //Textures
-        Texture texture1 = new SolidColorTexture(new ColorRGB(0.5,0.5,0.5));
-        Texture texture2 = new SolidColorTexture(new ColorRGB(0.1,.80,0.1));
-        Texture texture4 = new SolidColorTexture(new ColorRGB(0.1,.1,0.1));
+//        Textures
+        Texture texture1 = new SolidColorTexture(new ColorRGB(0.7,0.1,0.1));
+        Texture texture2 = new SolidColorTexture(new ColorRGB(0.1,0.80,0.1));
+        Texture texture4 = new SolidColorTexture(new ColorRGB(0.8,.8,0.8));
         ImageTexture texture3 = new ImageTexture("src/main/resources/texture-background.jpg");
-        texture3.setScale(1);
+        texture3.setScale(0.01);
 
         //Adding materials
         RoughMaterial material1 = new RoughMaterial(0.1, new ColorRGB());
         RoughMaterial material2 =  new RoughMaterial(1, new ColorRGB(0.1,.80,0.1));
-        RoughMaterial material3 =  new RoughMaterial(0.1, new ColorRGB());
+        RoughMaterial material3 =  new RoughMaterial(1, new ColorRGB());
         Dielectric material4 = new Dielectric(1.5, new ColorRGB());
 
         //Adding objects to scene
         scene.addObject(new Sphere(0.5, new Vector3(0.5,0,-2),material2, texture2));
-        scene.addObject(new Sphere(100, new Vector3(0,-100.5,-2), material3, texture2));
-        scene.addObject(new Sphere(0.5, new Vector3(-0.5,0,-2),material1, texture3));
-        scene.addObject(new Plane(new Vector3(1, 0, 0), new Vector3(-2, 0, -10), material1, texture1));
-        scene.addObject(new Triangle(new Vector3(0,0.8,-2), new Vector3(-1,1,-2), new Vector3(-2,2,-2), material1, texture3) );
+        scene.addObject(new Sphere(100, new Vector3(0,-100.5,-2), material1, texture2));
+        scene.addObject(new Sphere(0.5, new Vector3(-0.5,0,-2),material4, texture4));
+        scene.addObject(new Plane(new Vector3(1, 0, 1), new Vector3(-2, 0, -10), material3, texture3));
+        scene.addObject(new Triangle(new Vector3(0,0.8,-2), new Vector3(-1,1,-2), new Vector3(-2,2,-2), material3, texture3) );
 
 
         //Loading all added objects to scene
@@ -124,6 +124,11 @@ public class Engine {
             imgAccumulated[i][1] = 0;
             imgAccumulated[i][2] = 0;
         }
+    }
+
+    public void setScene(Scene scene){
+        this.scene = scene;
+        this.camera.setScene(scene);
     }
 
 }

@@ -4,13 +4,12 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import raytacer.Engine;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.IntBuffer;
@@ -32,24 +31,28 @@ public class RenderingController {
         System.out.println("innit?");
         App.getPrimaryStage().setHeight(Math.max(height, 400));
         App.getPrimaryStage().setWidth(Math.max(width, 400));
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            public void handle(KeyEvent e)
-            {
-                String code = e.getCode().toString();
+        scene.setOnKeyPressed(e -> {
+            String code = e.getCode().toString();
 
-                if (code.equals("ESCAPE")){
-                    try {
-                        returnToMenu();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-                if (code.equals(("S"))){
-                    save = true;
+            if (code.equals("ESCAPE")){
+                try {
+                    returnToMenu();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
+            if (code.equals(("S"))){
+                save = true;
+            }
         });
+        scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event){
+//                System.out.println(event.getX());
+//                System.out.println(event.getSceneX());
+//                System.out.println("=========");
+            }
+        });
+
         loop();
     }
 //
@@ -62,9 +65,6 @@ public class RenderingController {
         imageView.fitHeightProperty();
         imageView.fitWidthProperty();
         final long[] lastTime = {0};
-        int depth = Integer.parseInt(App.getAppController().Depth.getText());
-
-//        Engine engine = new Engine(width, height, 10, depth, 90);
 
         renderLoop = new AnimationTimer()
         {
